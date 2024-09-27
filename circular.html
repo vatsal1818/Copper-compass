@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="app.js" defer></script>
+    <title>Circle Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .slideshow {
+            height: 100vh;
+            background-color: antiquewhite;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .carousel-container {
+            width: 30rem;
+            height: 30rem;
+            position: absolute;
+            border: 3px solid #eebe97;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+            transition: rotate 1s;
+            right: -50%;
+        }
+
+        .carousel {
+            width: 40rem;
+            height: 40rem;
+            border: 3px solid#eebe97;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+            transition: rotate 1s;
+
+        }
+
+        .slide {
+            width: 20rem;
+            position: absolute;
+        }
+
+        .slide:nth-child(1) {
+            bottom: -9rem;
+            left: 8rem;
+            rotate: 270deg;
+        }
+
+        .slide:nth-child(2) {
+            left: -11rem;
+            top: 11rem;
+        }
+
+        .slide:nth-child(3) {
+            top: -7rem;
+            rotate: 90deg;
+        }
+
+        .slide:nth-child(4) {
+            right: -12rem;
+            top: 15rem;
+            rotate: 180deg;
+        }
+
+
+        .slide:nth-child(5) {
+            right: -7rem;
+            top: 0rem;
+            rotate: 138deg;
+        }
+
+        .slide:nth-child(6) {
+            right: -6rem;
+            top: 31rem;
+            rotate: 220deg;
+        }
+
+        .slide:nth-child(7) {
+            right: 26rem;
+            top: -3rem;
+            rotate: 400deg;
+        }
+
+        .slide:nth-child(8) {
+            right: 27rem;
+            top: 29rem;
+            rotate: 323deg;
+        }
+
+        .slide.active img {
+            transition: transform 0.5s 0.5s;
+        }
+
+        .slide img {
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .controls {
+            position: sticky;
+            bottom: 5rem;
+        }
+
+        .controls a {
+            padding: 1rem;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 10rem;
+            transition: background-color 1s;
+        }
+
+        .controls a.active {
+            background-color: #7dbd77;
+        }
+
+        .controls img {
+            width: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slideshow">
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="slide active">
+                    <img src="sec2.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec21.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec22.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec2.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec21.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec22.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec2.png" />
+                </div>
+                <div class="slide">
+                    <img src="sec22.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const carousel = document.querySelector(".carousel");
+    const slides = document.querySelectorAll(".slide");
+    const controlLinks = document.querySelectorAll(".controls a");
+
+    let i = 0,
+        j = 1,
+        intervalId;
+
+    const intervalFn = () => {
+        intervalId = setInterval(() => {
+            carousel.style.rotate = `-${++i * 45}deg`;
+
+            document.querySelector(".slide.active").classList.remove("active");
+            const activeSlide = document.querySelector(`.slide:nth-child(${++j})`);
+            activeSlide.classList.add("active");
+
+            document.querySelector("a.active").classList.remove("active");
+            const activeLink = document.querySelector(`.controls a:nth-child(${j})`);
+            activeLink.classList.add("active");
+
+            j === 4 && (j = 0);
+        }, 4000);
+    };
+
+    intervalFn();
+
+    controlLinks.forEach((control) => {
+        control.addEventListener("click", () => {
+            clearInterval(intervalId);
+            carousel.style.rotate = `-${(i - j + Number(control.dataset.index)) * 90
+                }deg`;
+
+            document.querySelector(".slide.active").classList.remove("active");
+            const activeSlide = document.querySelector(
+                `.slide:nth-child(${control.dataset.index})`
+            );
+            activeSlide.classList.add("active");
+
+            document.querySelector("a.active").classList.remove("active");
+            control.classList.add("active");
+        });
+    });
+</script>
+
+</html>
