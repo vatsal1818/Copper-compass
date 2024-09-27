@@ -61,7 +61,7 @@ header .navbar-nav .nav-link.show {
     padding-bottom: 200px;
     position: relative;
     margin-top: -111px;
-    background-image: url(/images/section1main.png);
+    background-image: url(./section1main.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
